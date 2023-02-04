@@ -49,4 +49,46 @@ Several hypotheses are assumed here, that's fine.  The convenient recurrence (ac
 
 Lots of ugly notation is suppressed, which is great.  
 
+## Value functions
+
 The agent's policy maps states to action, probabilistically.
+
+```math
+\Pi(s, a) = \text{ probability of selecting action }a\text{ from state }s
+```
+
+Each state has a value defined by
+
+```math
+\begin{align*}
+    q_\Pi(s, a)
+    &:=\mathbb{E}_\Pi\left[
+        G_t \; | \; S_t = s\text{ and }A_t = a
+    \right] 
+    \\
+    &= \mathbb{E}_\Pi\left[
+        \sum_{k=0}^\infty \gamma^k\cdot R_{t+k+1} \; | \; S_t = s\text{ and }A_t = a
+    \right]
+\end{align*}
+```
+
+and each state, action pair has a value
+
+```math
+\begin{align*}
+    v_\Pi(s) 
+    &:= \mathbb{E}_\Pi[G_t \; | \; S_t = s]
+    \\
+    &= \mathbb{E}_\Pi\left[
+        \sum_{k=0}^\infty\gamma^k\cdot R_{t+k+1} \; | \; S_t = s
+    \right].  
+\end{align*}
+```
+
+More granularly, we have the relation
+
+```math
+    v_\Pi(s)
+    = \sum_a q_\Pi(s, a)
+    \cdot \PP_\Pi[A_t = a\; | \; S_t = s].  
+```
