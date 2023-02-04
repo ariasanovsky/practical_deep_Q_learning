@@ -15,8 +15,12 @@ Next, we explore Markov decision processes.  From a state, an action may nondete
 Furthermore the expected reward from a state given an action is
 
 ```math
-    r(s, a) := \mathbb{E}[R_t \; | \; S_{t-1} = s\text{ and } A_{t-1} = a]
-    = \sum_{r\in R}\sum_{s'\in S}\mathbb{P}[s', r\; | \; s, a].  
+\begin{align*}
+    r(s, a) 
+    &:= \mathbb{E}[R_t \; | \; S_{t-1} = s\text{ and } A_{t-1} = a]
+    \\
+    &= \sum_{r\in R}\sum_{s'\in S}\mathbb{P}[s', r\; | \; s, a].  
+\end{align*}
 ```
 
 Total return up to some final time is defined by
