@@ -85,10 +85,10 @@ and each state, action pair has a value
 \end{align*}
 ```
 
-More granularly, we have the relation
+Crucially, we have the relation
 
 ```math
     v_\Pi(s)
     = \sum_a q_\Pi(s, a)
-    \cdot \PP_\Pi[A_t = a\; | \; S_t = s].  
+    \cdot \mathbb{P}_\Pi[A_t = a\; | \; S_t = s].  
 ```
