@@ -28,8 +28,7 @@ Total return up to some final time is defined by
 And the terminal state reached in an episode yields no future returns, i.e.,
 
 ```math
-G_T = 0```
-.  
+G_T = 0.```
 
 Not all tasks are episodic, however!  Here, rewards may tend to infinity.  We can resolve this by discounting rewards with a new hyperparameter: 
 
