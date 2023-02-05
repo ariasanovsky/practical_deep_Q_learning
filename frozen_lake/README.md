@@ -54,19 +54,19 @@ Lots of ugly notation is suppressed, which is great.
 The agent's policy maps states to action, probabilistically.
 
 ```math
-\Pi(s, a) = \text{ probability of selecting action }a\text{ from state }s
+\pi(s, a) = \text{ probability of selecting action }a\text{ from state }s
 ```
 
 Each state has a value defined by
 
 ```math
 \begin{align*}
-    q_\Pi(s, a)
-    &:=\mathbb{E}_\Pi\left[
+    q_\pi(s, a)
+    &:=\mathbb{E}_\pi\left[
         G_t \; | \; S_t = s\text{ and }A_t = a
     \right] 
     \\
-    &= \mathbb{E}_\Pi\left[
+    &= \mathbb{E}_\pi\left[
         \sum_{k=0}^\infty \gamma^k\cdot R_{t+k+1} \; | \; S_t = s\text{ and }A_t = a
     \right]
 \end{align*}
@@ -76,10 +76,10 @@ and each state, action pair has a value
 
 ```math
 \begin{align*}
-    v_\Pi(s) 
-    &:= \mathbb{E}_\Pi[G_t \; | \; S_t = s]
+    v_\pi(s) 
+    &:= \mathbb{E}_\pi[G_t \; | \; S_t = s]
     \\
-    &= \mathbb{E}_\Pi\left[
+    &= \mathbb{E}_\pi\left[
         \sum_{k=0}^\infty\gamma^k\cdot R_{t+k+1} \; | \; S_t = s
     \right].  
 \end{align*}
@@ -88,7 +88,55 @@ and each state, action pair has a value
 Crucially, we have the relation
 
 ```math
-    v_\Pi(s)
-    = \sum_a q_\Pi(s, a)
-    \cdot \mathbb{P}_\Pi[A_t = a\; | \; S_t = s].  
+    v_\pi(s)
+    = \sum_a q_\pi(s, a)
+    \cdot \mathbb{P}_\pi[A_t = a\; | \; S_t = s].  
+```
+
+With a large state & action space, it's impossible to find these probabilities by brute force.  In practice, we parametrize and monte carlo to estimate them.  
+Unpacking terms gives us the Bellman Equation, which we state explicitly here:
+
+```math
+    v_\pi(s) = \sum_a\pi(a,s)
+    \cdot\sum_{s',r}\mathbb{P}[s',r\; | \; s,a]\cdot\left(r + \gamma v_\pi(s')\right)
+```
+
+This equation is the heart of RL.  It lets us recursively monte carlo the value function w.r.t. a policy.  
+Policies are paratially ordered entrywise over the state space, and maximal policies are optimal policies.
+Optimal policy equations:
+
+```math
+\begin{align*}
+v_*(s)
+&=
+    \max_a q_{\pi_*}(s,a)
+\\
+    \max_a
+    \mathbb{E}_{\pi_*}\left[
+        G_t\; | \; S_t = s\text{ and }A_t = a
+    \right]
+\\
+&=
+    \mathbb{E}_{\pi_*}\left[
+        R_{t+1} + \gamma\cdot G_{t+1}\; | \; S_t = s\text{ and }A_t = a
+    \right]
+\\
+&=
+    \mathbb{E}_{\pi_*}\left[
+        R_{t+1} + \gamma\cdot v_*(S_{t+1})
+        \; | \; S_t = s\text{ and }A_t = a
+    \right]
+\\
+&=
+\max_a
+\sum_{s', r}
+    \mathbb{P}\left[
+        s', r 
+        \; | \;
+        s, a
+    \right]
+    \cdot\left(
+        r + \gamma\cdot v_*(s')
+    \right)
+\end{align*}
 ```
