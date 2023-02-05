@@ -111,6 +111,7 @@ v_*(s)
 &=
     \max_a q_{\pi_*}(s,a)
 \\
+&=
     \max_a
     \mathbb{E}_{\pi_*}\left[
         G_t\; | \; S_t = s\text{ and }A_t = a
@@ -140,3 +141,81 @@ v_*(s)
     \right)
 \end{align*}
 ```
+
+Similarly,
+
+```math
+\begin{align*}
+q_*(s, a)
+&=
+\max_a
+\sum_{s', r}
+    \mathbb{P}\left[
+        s', r 
+        \; | \;
+        s, a
+    \right]
+    \cdot\left(
+        r + \gamma\cdot \max_{a'} q_*(s', a')
+    \right).  
+\end{align*}
+```
+
+## Implementation heuristics
+
+Explore exploit dilemma is how much to explore the space to monte carlo it vs greedily selecting what is believed to be optimal.
+E.g., when exploring a maze, estimate a value of zero for each state but penalize each step with no reward to counteract.
+This reduces to a BSF.
+
+Epsilon-greedy gradually cools down a parameter that makes the agent sometimes take a random actionn.
+We must keep the parameter positive to appropriately monte carlo the space.
+
+## Temporal difference learning
+
+Update value function at each step using finite differences scaled to step size, which often shrinks over time.  How often to update depends on the algorithm of choice.  Monte carlo updates per episode.
+Q learning updates at each time step and is thus `online`.  
+
+With another hyperparameter, the Q learning algorithm updates with:
+
+```math
+v_(s_t) 
+= v(s_t) 
++ \alpha
+\cdot\left(
+    R_{t+1}
+    +\gamma
+    \cdot v(s_{t+1} - v(s_t))
+\right).  
+
+```
+
+Under appropriate assumptions, the value function converges to the correct one.
+Backtracking to the action-value function:
+
+```math
+Q(s_t, a_t)
+=
+    Q(s_t, a_t)
+    + \alpha\cdot\left(
+        R_{t+1} + \gamma\cdot\max_{a} Q(S_{t+1}, a)
+        - Q(s_t, a_t)
+    \right)
+```
+
+Typo?
+
+## Tabular estimates in the frozen lake
+
+Since the state space is so small, we can just epsilon-greedy it.
+Side note that this is off-policy learning since we use the old policy to get the value function of the updated policy.  SARSA on-policy learning seems harder to implement.  Also if a policy doesn't change much between states, off-policy learning sounds fine in a big state space.
+
+## Recap of Q learning
+
+1. Initialize an initial guess for the value function with zero value on terminal states.
+1. Initiialize some hyperparameters that control Q learning.
+
+A step of an episode looks like...
+
+1. Choose an action with epsilon-greedy.
+1. Get the new state and reward.
+1. Update estimate for action-value function.
