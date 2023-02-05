@@ -11,14 +11,14 @@ if __name__ == "__main__":
         gamma        = 0.9, 
         eps0         = 1.0, 
         epsMin       = 0.01, 
-        epsDecrement = 0.99999995,
+        epsDecrement = 0.9999995,
         nActions     = 4, 
         nStates      = 16)
 
     scores = []
     winPcts = []
     
-    nGames = 5000000
+    nGames = 500000
     for i in range(nGames):
         done = False
         observation = env.reset() # did the return change in a revision?
@@ -34,12 +34,12 @@ if __name__ == "__main__":
         
         # record results
         scores.append(score)
-        if i % 1000 == 0:
-            winPct = np.mean(scores[-1000:])
+        if i % 100 == 0:
+            winPct = np.mean(scores[-100:])
             winPcts.append(winPct)
             
             # show more details
-            if i % 10000 == 0:
+            if i % 1000 == 0:
                 print(
                     "episode", i, 
                     "winPct %.2f" % winPct, 

@@ -48,7 +48,7 @@ class Agent():
                    else self.epsMin
     
     def updateQ(self, state, action, reward, state_):
-        qValues = qValues = self.qValuesFromState(state)
+        qValues = self.qValuesFromState(state_)
         aMax = np.argmax(qValues)
 
         self.Q[(state, action)] += self.learningRate * \
