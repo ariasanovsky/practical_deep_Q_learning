@@ -1,4 +1,4 @@
-name: practical_deep_Q_learning
+name: qlearn
 
 channels:
   - pytorch

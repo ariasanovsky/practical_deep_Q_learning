@@ -10,4 +10,4 @@ I recommend setting up the build environment in a Conda terminal with:
 
 Activate the environment with:
 
-```conda activate practical_deep_Q_learning```
+```conda activate qlearn```
