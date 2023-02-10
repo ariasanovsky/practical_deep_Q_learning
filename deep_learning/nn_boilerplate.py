@@ -32,7 +32,7 @@ class LinearClassifier(nn.Module):  # inherits some useful functions
     def forward(self, data):
         layer1 = F.sigmoid(self.fc1(data))          # composing layer with act. fun.
         layer2 = F.sigmoid(self.fc2(layer1))        # passing 1st layer as data, through act. fun.
-        layer3 = self.fc3(layer2)                   # no activation, just the layer, handled by loss fun.
+        layer3 =           self.fc3(layer2)         # no activation, just the layer, handled by loss fun.
         
         return layer3
     
