@@ -40,7 +40,7 @@ class Agent():
     def decrementEpsilon(self) -> None:
         self.eps = self.eps - self.epsDecrement \
                         if self.eps > self.epsMin \
-                    else self.epsMin
+                   else self.epsMin
     
     def updateQ(self, state, action, reward, state_) -> None:
         ''' initialization'''
