@@ -29,8 +29,9 @@ if __name__ == '__main__':
             Agent.updateQ(state, action, reward, state_)
             score += reward
             state = state_
-
+        
         # log results
+        scores.append(score)
         if i % blockSize == 0:
             winPct = np.mean(scores[-blockSize:])
             winPcts.append(winPct)
