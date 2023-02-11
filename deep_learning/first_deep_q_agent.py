@@ -43,9 +43,9 @@ class Agent():
         ''' initialization'''
         self.Q.optimizer.zero_grad()
         state  = T.tensor(state, dtype = T.float).to(self.Q.device)
+        state_ = T.tensor(state_, dtype = T.float).to(self.Q.device)
         action = T.tensor(action).to(self.Q.device)
         reward = T.tensor(reward).to(self.Q.device)
-        state_ = T.tensor(state, dtype = T.float).to(self.Q.device)
         
         ''' getting predicted Q for '''
         qPredictions  = self.Q.forward(state)
