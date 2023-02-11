@@ -4,7 +4,7 @@ import torch.optim as optim
 import torch as T
 
 class FirstNetwork(nn.Module):
-    def init(self, learningRate, nActions, inputDims):
+    def __init__(self, learningRate, nActions, inputDims):
         super(FirstNetwork, self).__init__()
         
         self.fcLayer1 = nn.Linear(*inputDims, 128)     # parameter layer -> hidden layer
@@ -19,7 +19,7 @@ class FirstNetwork(nn.Module):
         self.optimizer = optim.Adam(self.parameters(), lr = learningRate)
         self.loss = nn.MSELoss()
         
-        self.device = T.device('cuda:0' if T.cuda_is_available() else 'cpu')
+        self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
         self.to(self.device)
         
     def forward(self, state):

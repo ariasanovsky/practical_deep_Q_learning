@@ -25,17 +25,14 @@ class Agent():
             self.Q = FirstNetwork(self.learningRate, self.nActions, self.inputDims)
             self.rng = np.random
     
-    def qValuesFromState(self, state) -> np.array:
-        return self.Q.forward(state)
-    
     def chooseAction(self, state):
-        if self.rng < self.eps:
+        if self.rng.random() < self.eps:
             action = np.random.choice(self.actionSpace)
         else:
             state = T.tensor(state, dtype = T.float).to(self.Q.device)
-            qValues = self.qValuesFromState(state)
-            action = np.argmax(qValues)
-        return T.item(action)
+            qValues = self.Q.forward(state)
+            action = T.argmax(qValues).item()
+        return action
 
     def decrementEpsilon(self) -> None:
         self.eps = self.eps - self.epsDecrement \
@@ -44,23 +41,26 @@ class Agent():
     
     def updateQ(self, state, action, reward, state_) -> None:
         ''' initialization'''
-        self.optimizer.zero_grad()
-        state = T.tensor(state, dtype = T.float).to(self.device)
-        action = T.tensor(action).to(self.device)
-        reward = T.tensor(reward)
-        state_ = T.tensor(state, dtype = T.float).to(self.device)
+        self.Q.optimizer.zero_grad()
+        state  = T.tensor(state, dtype = T.float).to(self.Q.device)
+        action = T.tensor(action).to(self.Q.device)
+        reward = T.tensor(reward).to(self.Q.device)
+        state_ = T.tensor(state, dtype = T.float).to(self.Q.device)
         
         ''' getting predicted Q for '''
         qPredictions  = self.Q.forward(state)
         qPredictions_ = self.Q.forward(state_)
         
+        qPrediction = qPredictions[action]
+        qNext = qPredictions_.max()
+        
         ''' updating Q(state, action)'''
-        qTarget = reward + self.gamma * np.max(qPredictions_)
-        cost = self.Q.loss(qTarget, qPredictions[action]).to(self.Q.device)
+        qTarget = reward + self.gamma * qNext
+        loss = self.Q.loss(qTarget, qPrediction).to(self.Q.device)
         
         ''' backprop and step'''
-        cost.backward()
-        self.optimizer.step()
+        loss.backward()
+        self.Q.optimizer.step()
         
         ''' update eps '''
         self.decrementEpsilon()
