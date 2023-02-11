@@ -2,7 +2,14 @@ import gym
 from first_deep_q_agent import Agent
 
 import numpy as np
-import matplotlib.pyplot as plt
+
+''' funny python problem -- I run this program in its current dir
+    it can't see the parent directory unless I run from there
+    adding the parent directory to path ensure I can see it
+''' 
+import sys
+sys.path.append("..")
+from course_utils.plots import plotLearningCurve
 
 if __name__ == '__main__':
     env = gym.make('CartPole-v1')
@@ -33,7 +40,7 @@ if __name__ == '__main__':
         
         # log results
         scores.append(score)
-        epsHistory.appen(agent.eps)
+        epsHistory.append(agent.eps)
         
         if i % blockSize == 0:
             winPct = np.mean(scores[-blockSize:])
@@ -45,5 +52,6 @@ if __name__ == '__main__':
                 "winPct %.2f" % winPct, 
                 "eps %.2f"    % agent.eps)
 
-        plt.plot(winPcts)
-        plt.show()
+        fname = 'cartpole_naive_dqn.png'
+        xs = range(1, nGames + 1)
+        plotLearningCurve(xs, scores, epsHistory, fname)
