@@ -28,6 +28,7 @@ if __name__ == '__main__':
             state_, reward, done, info = env.step(action)
             Agent.updateQ(state, action, reward, state_)
             score += reward
+            state = state_
 
         # log results
         if i % blockSize == 0:
