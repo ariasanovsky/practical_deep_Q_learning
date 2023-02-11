@@ -9,7 +9,7 @@ from first_network import FirstNetwork
 
 class Agent():
     def __init__(self, nActions, inputDims,
-        learningRate, gamma = 0.99, 
+        learningRate = 0.001, gamma = 0.99, 
         eps0 = 1.0, epsMin = 0.01, epsDecrement = 1e-5):
             
             ''' capturing '''

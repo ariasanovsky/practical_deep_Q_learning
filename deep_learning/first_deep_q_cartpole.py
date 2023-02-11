@@ -16,9 +16,7 @@ if __name__ == '__main__':
     scores = []
     
     
-    # initialize Agent
-    # get problem dimensions from env somehow
-    agent = Agent(nActions = env.action_space, inputDims = env.observation_space, learningRate = 1)
+    agent = Agent(nActions = env.action_space.n, inputDims = env.observation_space.shape)
     
     for i in range(nGames):
         done = False
