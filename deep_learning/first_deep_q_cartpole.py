@@ -14,6 +14,7 @@ if __name__ == '__main__':
     
     winPcts = []
     scores = []
+    epsHistory = []
     
     
     agent = Agent(nActions = env.action_space.n, inputDims = env.observation_space.shape)
@@ -32,6 +33,8 @@ if __name__ == '__main__':
         
         # log results
         scores.append(score)
+        epsHistory.appen(agent.eps)
+        
         if i % blockSize == 0:
             winPct = np.mean(scores[-blockSize:])
             winPcts.append(winPct)
