@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def plotLearningCurve(xs, scores, epss, fname):
     fig = plt.figure()
     ax  = fig.add_subplot(111, label = "1")
-    ax2 = fig.add_subplot(111, label = "2", frame_one = False)
+    ax2 = fig.add_subplot(111, label = "2", frame_on = False)
     
     ax.plot(xs, epss, color = "C0")
     ax.set_xlabel("Training Steps", color = "C0")
