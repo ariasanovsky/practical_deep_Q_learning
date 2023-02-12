@@ -2,6 +2,12 @@
 
 Here are some questions to consider when reading the DeepMind paper [*Human-level control through deep reinforcement learning*](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf).
 
+## Overall take
+
+I'm surprised how simple the ideas in the paper are.  There's no standout brilliant idea.  It's a lot of cleverness piled on incrementally, likely through discussion in a lab for extended periods with smart people combing the literature and meditating and of course benchmarking.  Smaller labs simply don't have the resources to overcome these same obstacles all at once.  
+
+I'm impressed at how elegantly it can be explained.  The heuristics employed aren't localized to a single problem instance and are made in a way which covers a wider scope.
+
 ## What algorithm?
 
 1. Deep Q Learning with a CNN on the front to process a screen image.  
