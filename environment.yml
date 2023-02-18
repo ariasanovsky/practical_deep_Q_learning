@@ -13,3 +13,4 @@ dependencies:
   - matplotlib
   - gym
   - box2d-py
+  - opencv

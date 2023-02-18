@@ -8,7 +8,7 @@ import numpy as np
     adding the parent directory to path ensure I can see it ''' 
 import sys
 sys.path.append("..")
-from course_utils.plots import plotLearningCurve
+from course_utils.utils import plotLearningCurve
 
 if __name__ == '__main__':
     env = gym.make('CartPole-v1')

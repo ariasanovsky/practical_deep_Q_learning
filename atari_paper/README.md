@@ -67,3 +67,22 @@ Misc parameters:
 ## What results to expect?
 
 We expect $Q$ to be much more stable (measured by calculating updated values over the replay memory) with a general improvement in average score over time.  Also, I lovee these $t$-SNE graphs.  I would love to learn how to make those.
+
+## Implementating the paper
+
+We'll give it a try implementing the full problem.  For the image:
+
+1. convert RGB to grayscale (3 channels to 1)
+2. downscale picture to $84\times 84$
+3. take max of previous 2 grayscale frames (emulation flickering)
+4. repeat each action 4 times
+5. swap channels to first position (transposing the image array)
+6. stack 4 frames
+7. scale inputs to fit in $[0,1]$
+
+We'll use [gym wrappers](https://github.com/openai/gym/tree/master/gym/wrappers) for best practice with tweaking the environment.  We will:
+
+1. override the initializer and have to call the `super` class initializer
+2. override the `step` and `reset` functions
+3. access the original environment with `self.env`
+4. use `gym.ObservationWrapper` in addition to `gym.Wrapper`
