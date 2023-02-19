@@ -1,14 +1,14 @@
 import numpy as np
 
 class ReplayBuffer():
-    def __init__(self, capacity, inputShape, nActions):
+    def __init__(self, capacity, inputDims):
         self.capacity = capacity
         self.nMemories = 0
             
         self.states = np.zeros_like(
-            (self.capacity, *inputShape), dtype = np.float32)
+            (self.capacity, *inputDims), dtype = np.float32)
         self.states_ = np.zeros_like(
-            (self.capacity, *inputShape), dtype = np.float32)
+            (self.capacity, *inputDims), dtype = np.float32)
         
         self.actions = np.zeros_like(
             self.capacity, dtype = np.int64)

@@ -1,3 +1,8 @@
+import collections
+import cv2
+import gym
+import numpy as np
+
 class ProcessingParameters:
     def __init__(self, nRepeats = 4, noOps = 0, 
                  clipRewards = False, fireFirst = False):
