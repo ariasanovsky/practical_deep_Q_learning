@@ -23,6 +23,7 @@ class AtariNetwork(nn.Module):
         self.optimizer = optim.RMSprop(self.parameters(), lr = lr)
         self.loss = nn.MSELoss()
         self.device = T.device("cuda:0" if T.cuda.is_available() else "cpu")
+        self.to(self.device)
         
     def calculateConvOutputDims(self, inputDims):
         dims = T.zeros(1, *inputDims)
@@ -37,19 +38,17 @@ class AtariNetwork(nn.Module):
         conv3 = F.relu(self.convLayer3(conv2)) #BS x nFilters x H x W
         convReshaped = conv3.view(conv3.size()[0], -1)
         
-        flat1 = F.relu(self.fc1(convReshaped))
-        qValues = self.fc2(flat1)
+        flat1 = F.relu(self.layer1(convReshaped))
+        qValues = self.layer2(flat1)
         return qValues
 
     
     def saveCheckpoint(self):
         print("... saving checkpoint ...")
         T.save(self.state_dict(), self.checkpointFile)
-        print("...       SAVED       ...")
         
     def loadCheckpoint(self):
         print("... loading checkpoint ...")
         T.load_state_dict(T.load(self.checkpointFile))
-        print("...       LOADED       ...")
         
     

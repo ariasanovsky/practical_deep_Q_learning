@@ -16,6 +16,7 @@ class RepeatActionAndMaxFrame(gym.Wrapper):
         self.params = params
         self.shape = env.observation_space.low.shape
         self.frameBuffer = np.zeros_like((2, self.shape))
+        self.rand = np.random
         
     def step(self, action):
         totalReward = 0.0
@@ -37,7 +38,7 @@ class RepeatActionAndMaxFrame(gym.Wrapper):
     def reset(self):
         obs = self.env.reset()
         
-        if noOps > 0:
+        if self.params.noOps > 0:
             noOps = self.rand.randint(self.params.noOps)  + 1
             for _ in range(noOps):
                 _, _, done, _ = self.env.step(0)
@@ -65,13 +66,13 @@ class PreprocessFrame(gym.ObservationWrapper):
     
     def observation(self, observation):
         #grayscale
-        newFrame = cv2.cvtColor(observation, cv2.COLOR_GRB2GRAY)
+        newFrame = cv2.cvtColor(observation, cv2.COLOR_RGB2GRAY)
         resizedScreen = cv2.resize(
             newFrame,
             self.shape[1:],
             interpolation = cv2.INTER_AREA)
         observation_ = np.array(resizedScreen, dtype = np.uint8).reshape(self.shape)
-        observation_ /= 255.0
+        observation_ = observation_ / 255.0
         return observation_
 
 class StackFrames(gym.ObservationWrapper):
@@ -97,7 +98,7 @@ class StackFrames(gym.ObservationWrapper):
         self.recentFrames.append(observation)
         return np.array(self.recentFrames).reshape(self.observation_space.low.shape)
 
-def processEnv(envName, shape, params: ProcessingParameters = ProcessingParameters()):
+def processEnv(envName, shape = (84, 84, 1), params: ProcessingParameters = ProcessingParameters()):
     env = gym.make(envName)
     env = RepeatActionAndMaxFrame(env, params)
     env =         PreprocessFrame(env, shape)
