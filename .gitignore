@@ -152,4 +152,5 @@ cython_debug/
 #.idea/
 
 *.pdf
-ROMs/*
+ROMs/
+atari_paper/tmp/
